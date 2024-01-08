@@ -12,8 +12,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
     {
         public static string ConvertResponseToJSON(RequestResultStruct requestResultStruct)
         {
-            Console.WriteLine(requestResultStruct.resultHeaders.Count);
-
             string responseJSON = JsonConvert.SerializeObject(requestResultStruct);
             return responseJSON;
         }

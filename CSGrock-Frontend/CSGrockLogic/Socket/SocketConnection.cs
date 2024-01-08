@@ -60,12 +60,20 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
             requestJSON.requestURL = requestJSON.requestURL.Substring(5);
 
+            Console.WriteLine("req body:" + requestJSON.requestBody.ToString());
+
             string requestURL = "http://localhost:" + StorageUtil.ForwardPort + requestJSON.requestURL.ToString();
             Console.WriteLine("Sending request to " + requestURL);
 
-            IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, Utils.Enums.RequestMethodeEnum.RequestMethode.GET, requestURL, requestJSON.requestID);
+            IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
 
             var result = RequestHandler.HandleRequestAsync(requestStruct);
+            if(result == null)
+            {
+                await SendMessage("Invalid request"); return Task.CompletedTask;
+            }
+
+            Console.WriteLine(result.Result.resultContent);
             var resultJSON = JSONUtil.ConvertResponseToJSON(result.Result);
             await SendMessage("Receaving from " + resultJSON);
             return Task.CompletedTask;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using CSGrock_Frontend.CSGrockLogic.Struct;
+using CSGrock_Frontend.CSGrockLogic.Utils;
 
 namespace CSGrock_Frontend.CSGrockLogic.Requests
 {
@@ -18,16 +19,22 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
             string requestID = requestStruct.requestID;
 
+            Console.WriteLine("header count: " + requestStruct.requestHeaders.Count);
+
             //TODO: build in header support
-            /*foreach(string header in requestStruct.requestHeaders)
+            foreach (var header in requestStruct.requestHeaders)
             {
-                string headerName = header.Split(':')[0].Replace("\"", "");
-                string headerValue = header.Split(':')[1].Replace("\"", "");
+                if (header.Key == null || header.Value == null) continue;
 
-                Console.WriteLine(headerName + ":" + headerValue);
-
-                client.DefaultRequestHeaders.Add(headerName, headerValue);
-            }*/
+                try {
+                    client.DefaultRequestHeaders.Add(header.Key.ToString(), header.Value.ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error while adding header: " + header.Key + " " + header.Value);
+                    Console.WriteLine(e.Message);
+                }   
+            }
 
             switch (requestStruct.requestMethode)
             {
@@ -56,143 +63,207 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformGetRequest(HttpClient client, string requestID)
         {
-            HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            Console.WriteLine(response.Headers.ToArray().Length);
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing get request");
+            try
             {
-                if(header.Key != null && header.Value != null)
-                {
-                    responseHeaders.Add(header.Key, header.Value.FirstOrDefault());
-                }
-            }
+                HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
 
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.Key != null && header.Value != null)
+                    {
+                        responseHeaders.Add(header.Key, header.Value.FirstOrDefault());
+                    }
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static async Task<RequestResultStruct> PerformPostRequets(HttpClient client, string content, string requestID)
         {
-            HttpContent httpContent = new StringContent(content);
-            HttpResponseMessage response = await client.PostAsync(client.BaseAddress.ToString(), httpContent);
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing post request");
+            try 
             {
-                if (header.ToString().Contains(":")) continue;
-                if (header.ToString().Split(':').Length < 2) continue;
+                string jsonContent = Newtonsoft.Json.JsonConvert.SerializeObject(content);
+                HttpContent httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                string headerKey = header.ToString().Split(':')[0];
-                string headerValue = header.ToString().Split(':')[1];
-                responseHeaders.Add(headerKey, headerValue);
+                HttpResponseMessage response = await client.PostAsync(client.BaseAddress.ToString(), httpContent);
+
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.ToString().Contains(":")) continue;
+                    if (header.ToString().Split(':').Length < 2) continue;
+
+                    string headerKey = header.ToString().Split(':')[0];
+                    string headerValue = header.ToString().Split(':')[1];
+                    responseHeaders.Add(headerKey, headerValue);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
             }
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static async Task<RequestResultStruct> PerformPutRequset(HttpClient client, string content, string requestID)
         {
-            HttpContent httpContent = new StringContent(content);
-            HttpResponseMessage response = await client.PutAsync(client.BaseAddress.ToString(), httpContent);
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing put request");
+            try
             {
-                if (header.ToString().Contains(":")) continue;
-                if (header.ToString().Split(':').Length < 2) continue;
+                HttpContent httpContent = new StringContent(content);
+                HttpResponseMessage response = await client.PutAsync(client.BaseAddress.ToString(), httpContent);
 
-                string headerKey = header.ToString().Split(':')[0];
-                string headerValue = header.ToString().Split(':')[1];
-                responseHeaders.Add(headerKey, headerValue);
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.ToString().Contains(":")) continue;
+                    if (header.ToString().Split(':').Length < 2) continue;
+
+                    string headerKey = header.ToString().Split(':')[0];
+                    string headerValue = header.ToString().Split(':')[1];
+                    responseHeaders.Add(headerKey, headerValue);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
             }
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static async Task<RequestResultStruct> PerformDeleteRequest(HttpClient client, string requestID)
         {
-            HttpResponseMessage response = await client.DeleteAsync(client.BaseAddress);
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing delete request");
+            try
             {
-                if (header.ToString().Contains(":")) continue;
-                if (header.ToString().Split(':').Length < 2) continue;
+                HttpResponseMessage response = await client.DeleteAsync(client.BaseAddress);
 
-                string headerKey = header.ToString().Split(':')[0];
-                string headerValue = header.ToString().Split(':')[1];
-                responseHeaders.Add(headerKey, headerValue);
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.ToString().Contains(":")) continue;
+                    if (header.ToString().Split(':').Length < 2) continue;
+
+                    string headerKey = header.ToString().Split(':')[0];
+                    string headerValue = header.ToString().Split(':')[1];
+                    responseHeaders.Add(headerKey, headerValue);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
             }
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static async Task<RequestResultStruct> PerformHeadRequest(HttpClient client, string requestID)
         {
-            HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, client.BaseAddress));
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing head request");
+            try
             {
-                if (header.ToString().Contains(":")) continue;
-                if (header.ToString().Split(':').Length < 2) continue;
+                HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, client.BaseAddress));
 
-                string headerKey = header.ToString().Split(':')[0];
-                string headerValue = header.ToString().Split(':')[1];
-                responseHeaders.Add(headerKey, headerValue);
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.ToString().Contains(":")) continue;
+                    if (header.ToString().Split(':').Length < 2) continue;
+
+                    string headerKey = header.ToString().Split(':')[0];
+                    string headerValue = header.ToString().Split(':')[1];
+                    responseHeaders.Add(headerKey, headerValue);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
             }
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static async Task<RequestResultStruct> PerformOptionsRequest(HttpClient client, string requestID)
         {
-            HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Options, client.BaseAddress));
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing options request");
+            try
             {
-                if (header.ToString().Contains(":")) continue;
-                if (header.ToString().Split(':').Length < 2) continue;
+                HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Options, client.BaseAddress));
 
-                string headerKey = header.ToString().Split(':')[0];
-                string headerValue = header.ToString().Split(':')[1];
-                responseHeaders.Add(headerKey, headerValue);
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.ToString().Contains(":")) continue;
+                    if (header.ToString().Split(':').Length < 2) continue;
+
+                    string headerKey = header.ToString().Split(':')[0];
+                    string headerValue = header.ToString().Split(':')[1];
+                    responseHeaders.Add(headerKey, headerValue);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
             }
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         public static async Task<RequestResultStruct> PerformPatchRequest(HttpClient client, string requestID)
         {
-            HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), client.BaseAddress));
-
-            Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-            foreach (var header in response.Headers)
+            Console.WriteLine("Performing patch request");
+            try
             {
-                if (header.ToString().Contains(":")) continue;
-                if (header.ToString().Split(':').Length < 2) continue;
+                HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), client.BaseAddress));
 
-                string headerKey = header.ToString().Split(':')[0];
-                string headerValue = header.ToString().Split(':')[1];
-                responseHeaders.Add(headerKey, headerValue);
+                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
+                foreach (var header in response.Headers)
+                {
+                    if (header.ToString().Contains(":")) continue;
+                    if (header.ToString().Split(':').Length < 2) continue;
+
+                    string headerKey = header.ToString().Split(':')[0];
+                    string headerValue = header.ToString().Split(':')[1];
+                    responseHeaders.Add(headerKey, headerValue);
+                }
+
+                string responseContent = await response.Content.ReadAsStringAsync();
+                client.Dispose();
+                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
             }
-
-            string responseContent = await response.Content.ReadAsStringAsync();
-            client.Dispose();
-            return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
     }
 }
