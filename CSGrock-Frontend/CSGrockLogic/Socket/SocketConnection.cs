@@ -70,11 +70,17 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             var result = RequestHandler.HandleRequestAsync(requestStruct);
             if(result == null)
             {
-                await SendMessage("Invalid request"); return Task.CompletedTask;
+                await SendMessage("Invalid request");
+                return Task.CompletedTask;
+            }
+            else if(result.Result == null)
+            {
+                await SendMessage("Invalid request");
+                return Task.CompletedTask;
             }
 
-            Console.WriteLine(result.Result.resultContent);
             var resultJSON = JSONUtil.ConvertResponseToJSON(result.Result);
+            Console.WriteLine(resultJSON);
             await SendMessage("Receaving from " + resultJSON);
             return Task.CompletedTask;
         }

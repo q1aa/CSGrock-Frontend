@@ -93,8 +93,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             Console.WriteLine("Performing post request");
             try 
             {
-                string jsonContent = Newtonsoft.Json.JsonConvert.SerializeObject(content);
-                HttpContent httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync(client.BaseAddress.ToString(), httpContent);
 
