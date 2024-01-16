@@ -124,7 +124,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             Console.WriteLine("Performing put request");
             try
             {
-                HttpContent httpContent = new StringContent(content);
+                //untested...
+                HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PutAsync(client.BaseAddress.ToString(), httpContent);
 
                 Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
