@@ -19,9 +19,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
             string requestID = requestStruct.requestID;
 
-            Console.WriteLine("header count: " + requestStruct.requestHeaders.Count);
-
-            //TODO: build in header support
             foreach (var header in requestStruct.requestHeaders)
             {
                 if (header.Key == null || header.Value == null) continue;
@@ -31,8 +28,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Error while adding header: " + header.Key + " " + header.Value);
-                    Console.WriteLine(e.Message);
+                    //Console.WriteLine("Error while adding header: " + header.Key + " " + header.Value);
+                    //Console.WriteLine(e.Message);
                 }   
             }
 
@@ -63,7 +60,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformGetRequest(HttpClient client, string requestID)
         {
-            Console.WriteLine("Performing get request");
             try
             {
                 HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
@@ -73,6 +69,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }
@@ -80,7 +77,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformPostRequets(HttpClient client, string content, string requestID)
         {
-            Console.WriteLine("Performing post request");
             try 
             {
                 HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
@@ -92,6 +88,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }
@@ -99,10 +96,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformPutRequset(HttpClient client, string content, string requestID)
         {
-            Console.WriteLine("Performing put request");
             try
             {
-                //untested...
                 HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PutAsync(client.BaseAddress.ToString(), httpContent);
                 RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
@@ -111,6 +106,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }
@@ -118,7 +114,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformDeleteRequest(HttpClient client, string requestID)
         {
-            Console.WriteLine("Performing delete request");
             try
             {
                 HttpResponseMessage response = await client.DeleteAsync(client.BaseAddress);
@@ -128,6 +123,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }
@@ -135,7 +131,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformHeadRequest(HttpClient client, string requestID)
         {
-            Console.WriteLine("Performing head request");
             try
             {
                 HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, client.BaseAddress));
@@ -145,6 +140,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }
@@ -152,7 +148,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformOptionsRequest(HttpClient client, string requestID)
         {
-            Console.WriteLine("Performing options request");
             try
             {
                 HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Options, client.BaseAddress));
@@ -162,6 +157,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }
@@ -169,7 +165,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
 
         public static async Task<RequestResultStruct> PerformPatchRequest(HttpClient client, string requestID)
         {
-            Console.WriteLine("Performing patch request");
             try
             {
                 HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), client.BaseAddress));
@@ -179,6 +174,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
+                Console.WriteLine("error appeared");
                 Console.WriteLine(e.Message);
                 return null;
             }

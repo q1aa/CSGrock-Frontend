@@ -15,8 +15,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils.Enums
             PUT,
             DELETE,
             PATCH,
-            OPTIONS,
             HEAD,
+            OPTIONS,
         }
     }
 }

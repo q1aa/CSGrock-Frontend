@@ -35,8 +35,8 @@ namespace CSGrock_Frontend
                 string port = input[1];
 
                 StorageUtil.ForwardPort = int.Parse(port);
+                Console.Clear();
                 await SocketConnection.ConnectToSocket();
-
                 Console.ReadLine();
             }
         }

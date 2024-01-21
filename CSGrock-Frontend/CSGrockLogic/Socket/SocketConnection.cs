@@ -46,43 +46,50 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             await ReceiveMessage(messageContent);
         }
 
-
+        //TODO: Patch request isnt working!
         private static async Task<Task> ReceiveMessage(string messageContent)
         {
-            if(messageContent.StartsWith("You are connected with UUID ")) {
+            if (messageContent.StartsWith("You are connected with UUID "))
+            {
+                string uuid = messageContent.Replace("You are connected with UUID ", "");
                 Console.WriteLine("You can perform request trough our backend under the following url now");
-                Console.WriteLine(messageContent.Replace("You are connected with UUID ", ""));
+                Console.WriteLine($"https://localhost:7006/send/{uuid}/");
+                Console.WriteLine($"Example: https://localhost:7006/send/{uuid}/api/v1/getUsers");
+                Console.WriteLine("---------------------------------------------------------------");
+                Console.WriteLine();
                 return Task.CompletedTask;
             }
 
-            //TODO: implement header support
-
-            var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
-            requestJSON.requestURL = requestJSON.requestURL.Substring(5);
-
-            Console.WriteLine("req body:" + requestJSON.requestBody.ToString());
-
-            string requestURL = "http://localhost:" + StorageUtil.ForwardPort + requestJSON.requestURL.ToString();
-            Console.WriteLine("Sending request to " + requestURL);
-
-            IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
-
-            var result = RequestHandler.HandleRequestAsync(requestStruct);
-            if(result == null)
+            try
             {
-                await SendMessage("Invalid request");
-                return Task.CompletedTask;
-            }
-            else if(result.Result == null)
-            {
-                await SendMessage("Invalid request");
-                return Task.CompletedTask;
-            }
+                var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
+                requestJSON.requestURL = requestJSON.requestURL.Substring(5);
 
-            var resultJSON = JSONUtil.ConvertResponseToJSON(result.Result);
-            Console.WriteLine(resultJSON);
-            await SendMessage("Receaving from " + resultJSON);
-            return Task.CompletedTask;
+                string requestURL = "http://localhost:" + StorageUtil.ForwardPort + requestJSON.requestURL.ToString();
+                ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+
+                IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
+
+                var result = RequestHandler.HandleRequestAsync(requestStruct);
+                if (result == null)
+                {
+                    await SendMessage("Invalid request");
+                    return Task.CompletedTask;
+                }
+                else if (result.Result == null)
+                {
+                    await SendMessage("Invalid request");
+                    return Task.CompletedTask;
+                }
+
+                var resultJSON = JSONUtil.ConvertResponseToJSON(result.Result);
+                await SendMessage("Receaving from " + resultJSON);
+                return Task.CompletedTask;
+            }
+            catch (Exception e)
+            {
+                return Task.CompletedTask;
+            }
         }
 
         public static async Task SendMessage(string message)
