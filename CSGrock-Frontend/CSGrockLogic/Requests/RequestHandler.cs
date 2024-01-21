@@ -67,19 +67,9 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             try
             {
                 HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
-
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.Key != null && header.Value != null)
-                    {
-                        responseHeaders.Add(header.Key, header.Value.FirstOrDefault());
-                    }
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {
@@ -94,23 +84,11 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             try 
             {
                 HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
-
                 HttpResponseMessage response = await client.PostAsync(client.BaseAddress.ToString(), httpContent);
 
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.ToString().Contains(":")) continue;
-                    if (header.ToString().Split(':').Length < 2) continue;
-
-                    string headerKey = header.ToString().Split(':')[0];
-                    string headerValue = header.ToString().Split(':')[1];
-                    responseHeaders.Add(headerKey, headerValue);
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {
@@ -127,21 +105,9 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
                 //untested...
                 HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PutAsync(client.BaseAddress.ToString(), httpContent);
-
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.ToString().Contains(":")) continue;
-                    if (header.ToString().Split(':').Length < 2) continue;
-
-                    string headerKey = header.ToString().Split(':')[0];
-                    string headerValue = header.ToString().Split(':')[1];
-                    responseHeaders.Add(headerKey, headerValue);
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {
@@ -156,21 +122,9 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             try
             {
                 HttpResponseMessage response = await client.DeleteAsync(client.BaseAddress);
-
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.ToString().Contains(":")) continue;
-                    if (header.ToString().Split(':').Length < 2) continue;
-
-                    string headerKey = header.ToString().Split(':')[0];
-                    string headerValue = header.ToString().Split(':')[1];
-                    responseHeaders.Add(headerKey, headerValue);
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {
@@ -185,21 +139,9 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             try
             {
                 HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, client.BaseAddress));
-
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.ToString().Contains(":")) continue;
-                    if (header.ToString().Split(':').Length < 2) continue;
-
-                    string headerKey = header.ToString().Split(':')[0];
-                    string headerValue = header.ToString().Split(':')[1];
-                    responseHeaders.Add(headerKey, headerValue);
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {
@@ -214,21 +156,9 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             try
             {
                 HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Options, client.BaseAddress));
-
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.ToString().Contains(":")) continue;
-                    if (header.ToString().Split(':').Length < 2) continue;
-
-                    string headerKey = header.ToString().Split(':')[0];
-                    string headerValue = header.ToString().Split(':')[1];
-                    responseHeaders.Add(headerKey, headerValue);
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {
@@ -243,21 +173,9 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             try
             {
                 HttpResponseMessage response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), client.BaseAddress));
-
-                Dictionary<string, string> responseHeaders = new Dictionary<string, string>();
-                foreach (var header in response.Headers)
-                {
-                    if (header.ToString().Contains(":")) continue;
-                    if (header.ToString().Split(':').Length < 2) continue;
-
-                    string headerKey = header.ToString().Split(':')[0];
-                    string headerValue = header.ToString().Split(':')[1];
-                    responseHeaders.Add(headerKey, headerValue);
-                }
-
-                string responseContent = await response.Content.ReadAsStringAsync();
+                RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
-                return new RequestResultStruct(responseContent, responseHeaders, response.StatusCode, requestID);
+                return result;
             }
             catch (Exception e)
             {

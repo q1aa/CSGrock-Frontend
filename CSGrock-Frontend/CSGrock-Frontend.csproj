@@ -43,6 +43,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSGrockLogic\Requests\RequestHandler.cs" />
+    <Compile Include="CSGrockLogic\Requests\ResponseHandler.cs" />
     <Compile Include="CSGrockLogic\Socket\SocketConnection.cs" />
     <Compile Include="CSGrockLogic\Struct\IncomingRequestStruct.cs" />
     <Compile Include="CSGrockLogic\Struct\RequestResultStruct.cs" />
