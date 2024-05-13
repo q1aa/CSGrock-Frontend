@@ -19,7 +19,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                 byte[] buffer = new byte[16385];
 
                 StorageUtil.webSocket = new ClientWebSocket();
-                await StorageUtil.webSocket.ConnectAsync(new Uri(StorageUtil.BackendURL), CancellationToken.None);
+                await StorageUtil.webSocket.ConnectAsync(new Uri("wss://" + StorageUtil.BackendURL + "/ws"), CancellationToken.None);
 
                 byte[] buf = new byte[16385];
 
@@ -53,8 +53,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             {
                 string uuid = messageContent.Replace("You are connected with UUID ", "");
                 Console.WriteLine("You can perform request trough our backend under the following url now");
-                Console.WriteLine($"https://localhost:7006/send/{uuid}/");
-                Console.WriteLine($"Example: https://localhost:7006/send/{uuid}/api/v1/getUsers");
+                Console.WriteLine($"https://{StorageUtil.BackendURL}/send/{uuid}/");
+                Console.WriteLine($"Example: https://${StorageUtil.BackendURL}/send/{uuid}/api/v1/getUsers");
                 Console.WriteLine("---------------------------------------------------------------");
                 Console.WriteLine();
                 return Task.CompletedTask;

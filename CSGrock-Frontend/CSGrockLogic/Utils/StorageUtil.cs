@@ -11,7 +11,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
     {
         public static ClientWebSocket webSocket = null;
 
-        public static string BackendURL = "wss://localhost:7006/ws";
+        public static string BackendURL = "csgrock.azurewebsites.net";
 
         public static int ForwardPort = 0;
     }
