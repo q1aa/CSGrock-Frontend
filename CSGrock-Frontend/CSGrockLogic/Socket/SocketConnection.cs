@@ -16,12 +16,12 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
         {
             try
             {
-                byte[] buffer = new byte[1056];
+                byte[] buffer = new byte[16385];
 
                 StorageUtil.webSocket = new ClientWebSocket();
                 await StorageUtil.webSocket.ConnectAsync(new Uri(StorageUtil.BackendURL), CancellationToken.None);
 
-                byte[] buf = new byte[1056];
+                byte[] buf = new byte[16385];
 
                 while (StorageUtil.webSocket.State == WebSocketState.Open)
                 {
