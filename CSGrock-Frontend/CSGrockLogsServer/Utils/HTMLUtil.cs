@@ -12,7 +12,7 @@ namespace CSGrock_Frontend.CSGrockLogsServer.Utils
     {
         public static string GetResponseHTML()
         {
-            return $"<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Document</title>\r\n    <link rel=\"stylesheet\" href=\"style.css\">\r\n</head>\r\n<body>\r\n    <div class=\"main\">\r\n        <div class=\"info-holder\">\r\n            <div class=\"info\">\r\n                <h2>Requests</h2>\r\n                <h3>20</h3>\r\n            </div>\r\n        </div>\r\n        <div class=\"request-holder\">{GetRequestHTML()}</div>\r\n    </div>\r\n</body>\r\n</html>";
+            return $"<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Document</title>\r\n    <link rel=\"stylesheet\" href=\"style.css\">\r\n</head>\r\n<body>\r\n    <div class=\"main\"><div class=\"request-holder\">{GetRequestHTML()}</div>\r\n    </div>\r\n<script>\r\n    setInterval(() => location.reload(), 1000);\r\n</script>\r\n</body>\r\n</html>";
         }
 
         public static string GetCSS()
