@@ -36,6 +36,11 @@ namespace CSGrock_Frontend
 
                 StorageUtil.ForwardPort = int.Parse(port);
                 Console.Clear();
+                new Thread(() =>
+                {
+                    CSGrockLogsServer.LogsServer.StartUp();
+                }).Start();
+                CSGrockLogsServer.Utils.LogUtil.CreateLogJSONFile();
                 await SocketConnection.ConnectToSocket();
                 Console.ReadLine();
             }

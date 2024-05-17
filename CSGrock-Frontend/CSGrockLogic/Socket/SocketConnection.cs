@@ -4,9 +4,11 @@ using CSGrock_Frontend.CSGrockLogic.Utils;
 using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static CSGrock_Frontend.CSGrockLogic.Utils.Enums.RequestMethodeEnum;
 
 namespace CSGrock_Frontend.CSGrockLogic.Socket
 {
@@ -54,7 +56,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                 string uuid = messageContent.Replace("You are connected with UUID ", "");
                 Console.WriteLine("You can perform request trough our backend under the following url now");
                 Console.WriteLine($"https://{StorageUtil.BackendURL}/send/{uuid}/");
-                Console.WriteLine($"Example: https://${StorageUtil.BackendURL}/send/{uuid}/api/v1/getUsers");
+                Console.WriteLine($"Example: https://{StorageUtil.BackendURL}/send/{uuid}/api/v1/getUsers");
                 Console.WriteLine("---------------------------------------------------------------");
                 Console.WriteLine();
                 return Task.CompletedTask;
@@ -67,6 +69,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
 
                 string requestURL = "http://localhost:" + StorageUtil.ForwardPort + requestJSON.requestURL.ToString();
                 ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+                CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
 
                 IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
 

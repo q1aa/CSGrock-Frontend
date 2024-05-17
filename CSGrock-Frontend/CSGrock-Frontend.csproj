@@ -61,6 +61,12 @@
     <Compile Include="CSGrockLogic\Utils\Enums\RequestMethodeEnum.cs" />
     <Compile Include="CSGrockLogic\Utils\JSONUtil.cs" />
     <Compile Include="CSGrockLogic\Utils\StorageUtil.cs" />
+    <Compile Include="CSGrockLogsServer\LogsServer.cs" />
+    <Compile Include="CSGrockLogsServer\RequestObject.cs" />
+    <Compile Include="CSGrockLogsServer\Utils\HTMLUtil.cs" />
+    <Compile Include="CSGrockLogsServer\Utils\LogUtil.cs" />
+    <Compile Include="CSGrockLogsServer\Utils\PortUtil.cs" />
+    <Compile Include="CSGrockLogsServer\Utils\StorageUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
