@@ -55,7 +55,6 @@ namespace CSGrock_Frontend.CSGrockLogsServer.Utils
             //TODO: implement a better way to parse the JSON
             string json = JsonConvert.SerializeObject(logEntry);
             string fileContent = File.ReadAllText(StorageUtil.LogFilePath);
-            Console.WriteLine(fileContent);
             if (fileContent.StartsWith("[]")) fileContent = $"[{json}]";
             else
             {

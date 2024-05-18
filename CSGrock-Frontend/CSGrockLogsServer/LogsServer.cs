@@ -49,7 +49,6 @@ namespace CSGrock_Frontend.CSGrockLogsServer
                 HttpListenerRequest req = ctx.Request;
                 HttpListenerResponse resp = ctx.Response;
 
-                Console.WriteLine(req.Url.AbsolutePath.ToString());
                 switch (req.Url.AbsolutePath)
                 {
                     case "/":

@@ -24,6 +24,8 @@ namespace CSGrock_Frontend.CSGrockLogsServer.Utils
         {
             string fileContent = File.ReadAllText(StorageUtil.LogFilePath);
             LogEntry[] logEntries = JsonConvert.DeserializeObject<LogEntry[]>(fileContent);
+            Array.Reverse(logEntries);
+
             string requestHTML = "";
             foreach (LogEntry logEntry in logEntries)
             {
