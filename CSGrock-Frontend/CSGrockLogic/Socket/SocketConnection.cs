@@ -65,11 +65,25 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             try
             {
                 var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
-                requestJSON.requestURL = requestJSON.requestURL.Substring(5);
+                if(requestJSON.requestURL == null) return Task.CompletedTask;
 
                 string requestURL = "http://localhost:" + StorageUtil.ForwardPort + requestJSON.requestURL.ToString();
+
+                if (requestURL.Contains("."))
+                {
+                    string fileType = requestJSON.requestURL.Substring(requestJSON.requestURL.LastIndexOf('.'));
+                    if (StorageUtil.imgeFileTypes.Contains(fileType) || StorageUtil.videoFileTypes.Contains(fileType))
+                    {
+                        var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
+                        var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
+                        await SendMessage(errorResultJSON);
+                        return Task.CompletedTask;
+                    }
+                }
+
                 ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
                 CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
+                requestJSON.requestURL = requestJSON.requestURL.Substring(5);
 
                 IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
 
@@ -91,6 +105,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             }
             catch (Exception e)
             {
+                Console.WriteLine("ERROR: " + e.ToString());
                 return Task.CompletedTask;
             }
         }
