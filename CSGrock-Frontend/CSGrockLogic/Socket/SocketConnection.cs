@@ -76,7 +76,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                     {
                         var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
                         var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
-                        await SendMessage(errorResultJSON);
+                        await SendMessage("Receaving from " + errorResultJSON);
                         return Task.CompletedTask;
                     }
                 }
