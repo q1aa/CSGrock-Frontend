@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using CSGrock_Frontend.CSGrockLogic.Struct;
 using CSGrock_Frontend.CSGrockLogic.Utils;
+using System.Web.UI;
 
 namespace CSGrock_Frontend.CSGrockLogic.Requests
 {
@@ -171,6 +172,59 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
                 RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();
                 return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error appeared");
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+    }
+
+    internal class FileRequestHandler
+    {
+        public static async Task<RequestResultStruct> HandleFileRequestAsync(IncomingRequestStruct requestStruct)
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Clear();
+            client.BaseAddress = new Uri(requestStruct.requestURL);
+
+            string requestID = requestStruct.requestID;
+
+            foreach (var header in requestStruct.requestHeaders)
+            {
+                if (header.Key == null || header.Value == null) continue;
+
+                try
+                {
+                    client.DefaultRequestHeaders.Add(header.Key.ToString(), header.Value.ToString());
+                }
+                catch (Exception e)
+                {
+                    //Console.WriteLine("Error while adding header: " + header.Key + " " + header.Value);
+                    //Console.WriteLine(e.Message);
+                }
+            }
+
+            var result = await PerformFileGetRequest(client, requestID);
+            return result;
+        }
+
+        private static async Task<RequestResultStruct> PerformFileGetRequest(HttpClient client, string requestID)
+        {
+            try
+            {
+                string base64 = string.Empty;
+
+                var repsponse = await client.GetAsync(client.BaseAddress);
+                if (repsponse.IsSuccessStatusCode)
+                {
+                    var bytes = await repsponse.Content.ReadAsByteArrayAsync();
+                    base64 = Convert.ToBase64String(bytes);
+                }
+
+                return new RequestResultStruct(base64, new Dictionary<string, string>(), repsponse.StatusCode, requestID);
             }
             catch (Exception e)
             {

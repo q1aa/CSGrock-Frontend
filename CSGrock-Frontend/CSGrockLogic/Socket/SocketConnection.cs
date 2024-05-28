@@ -64,6 +64,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
 
             try
             {
+                Console.WriteLine(messageContent);
                 var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
                 if(requestJSON.requestURL == null) return Task.CompletedTask;
 
@@ -77,13 +78,19 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                         var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
                         var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
                         await SendMessage("Receaving from " + errorResultJSON);
+
+
+                        /*IncomingRequestStruct imageRequsetStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
+                        var imageResult = FileRequestHandler.HandleFileRequestAsync(imageRequsetStruct);
+                        Console.WriteLine("Image result: " + imageResult.Result.resultContent.Length);*/
+
                         return Task.CompletedTask;
                     }
                 }
 
                 ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
                 CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
-                requestJSON.requestURL = requestJSON.requestURL.Substring(5);
+                //requestJSON.requestURL = requestJSON.requestURL.Substring(5);
 
                 IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
 
