@@ -13,7 +13,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
 
         //public static string BackendURL = "csgrock.azurewebsites.net";
 
-        public static string BackendURL = "localhost:7006";
+        public static string BackendURL = "csgrock.azurewebsites.net";
 
         public static int ForwardPort = 0;
 
