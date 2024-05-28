@@ -64,7 +64,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
 
             try
             {
-                Console.WriteLine(messageContent);
                 var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
                 if(requestJSON.requestURL == null) return Task.CompletedTask;
 
