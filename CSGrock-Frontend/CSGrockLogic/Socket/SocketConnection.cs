@@ -74,14 +74,29 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                     string fileType = requestJSON.requestURL.Substring(requestJSON.requestURL.LastIndexOf('.'));
                     if (StorageUtil.imgeFileTypes.Contains(fileType) || StorageUtil.videoFileTypes.Contains(fileType))
                     {
-                        var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
+                        /*var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
                         var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
-                        await SendMessage("Receaving from " + errorResultJSON);
+                        await SendMessage("Receaving from " + errorResultJSON);*/
 
 
-                        /*IncomingRequestStruct imageRequsetStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
+                        IncomingRequestStruct imageRequsetStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
                         var imageResult = FileRequestHandler.HandleFileRequestAsync(imageRequsetStruct);
-                        Console.WriteLine("Image result: " + imageResult.Result.resultContent.Length);*/
+                        Console.WriteLine("Image result: " + imageResult.Result.resultContent.Length);
+
+                        var imageParts = Base64Util.GetImageReturn(imageResult.Result.resultContent);
+
+                        //conver tis loop to a async one
+                        foreach (var imagePart in imageParts)
+                        {
+                            var sendingImagePart = new ImagePartStruct(imagePart.Key, imagePart.Value, imageParts.Count - 1, requestJSON.requestID);
+                            var sendingImagePartJSON = JSONUtil.ConvertImagePartToJSON(sendingImagePart);
+                            await SendMessage("Receaving parts " + sendingImagePartJSON);
+                        }
+
+                        /*var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
+                        var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
+                        await SendMessage("Receaving from " + errorResultJSON);*/
+
 
                         return Task.CompletedTask;
                     }

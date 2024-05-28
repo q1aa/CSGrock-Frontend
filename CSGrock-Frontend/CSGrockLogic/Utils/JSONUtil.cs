@@ -21,5 +21,11 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
             IncomingRequestStruct requestStruct = JsonConvert.DeserializeObject<IncomingRequestStruct>(requestJSON);
             return requestStruct;
         }
+
+        public static string ConvertImagePartToJSON(ImagePartStruct imagePartStruct)
+        {
+            string imagePartJSON = JsonConvert.SerializeObject(imagePartStruct);
+            return imagePartJSON;
+        }
     }
 }
