@@ -81,7 +81,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
 
                         IncomingRequestStruct imageRequsetStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
                         var imageResult = FileRequestHandler.HandleFileRequestAsync(imageRequsetStruct);
-                        Console.WriteLine("Image result: " + imageResult.Result.resultContent.Length);
 
                         var imageParts = Base64Util.GetImageReturn(imageResult.Result.resultContent);
 

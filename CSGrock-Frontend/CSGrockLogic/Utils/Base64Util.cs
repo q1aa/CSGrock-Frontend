@@ -8,7 +8,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
 {
     internal class Base64Util
     {
-        public static Dictionary<int, string> GetImageReturn(string base64Image, int splitLenght = 100)
+        public static Dictionary<int, string> GetImageReturn(string base64Image, int splitLenght = 500)
         {
             Dictionary<int, string> imageParts = new Dictionary<int, string>();
 
