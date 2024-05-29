@@ -72,31 +72,34 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                 if (requestURL.Contains("."))
                 {
                     string fileType = requestJSON.requestURL.Substring(requestJSON.requestURL.LastIndexOf('.'));
-                    if (StorageUtil.imgeFileTypes.Contains(fileType) || StorageUtil.videoFileTypes.Contains(fileType))
+                    string fileName = requestJSON.requestURL.Substring(requestJSON.requestURL.LastIndexOf('/') + 1);
+
+                    if (StorageUtil.videoFileTypes.Contains(fileType))
                     {
-                        /*var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
+                        var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
                         var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
-                        await SendMessage("Receaving from " + errorResultJSON);*/
+                        await SendMessage("Receaving from " + errorResultJSON);
 
-
+                        ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+                        CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
+                        return Task.CompletedTask;
+                    }
+                    else if (StorageUtil.imgeFileTypes.Contains(fileType))
+                    {
                         IncomingRequestStruct imageRequsetStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
                         var imageResult = FileRequestHandler.HandleFileRequestAsync(imageRequsetStruct);
 
                         var imageParts = Base64Util.GetImageReturn(imageResult.Result.resultContent);
 
-                        //conver tis loop to a async one
                         foreach (var imagePart in imageParts)
                         {
-                            var sendingImagePart = new ImagePartStruct(imagePart.Key, imagePart.Value, imageParts.Count - 1, requestJSON.requestID);
+                            var sendingImagePart = new ImagePartStruct(imagePart.Key, imagePart.Value, imageParts.Count - 1, fileName, fileType, requestJSON.requestID);
                             var sendingImagePartJSON = JSONUtil.ConvertImagePartToJSON(sendingImagePart);
                             await SendMessage("Receaving parts " + sendingImagePartJSON);
                         }
 
-                        /*var errorResult = new RequestResultStruct("Sry, this file type is not supported yet ://", new Dictionary<string, string>(), System.Net.HttpStatusCode.BadRequest, requestJSON.requestID);
-                        var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
-                        await SendMessage("Receaving from " + errorResultJSON);*/
-
-
+                        ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+                        CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
                         return Task.CompletedTask;
                     }
                 }
