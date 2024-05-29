@@ -27,7 +27,7 @@ namespace CSGrock_Frontend.CSGrockLogsServer
             StorageUtil.listener = new HttpListener();
             StorageUtil.listener.Prefixes.Add(StorageUtil.ServerURL);
             StorageUtil.listener.Start();
-            Console.WriteLine("Listening for connections on {0}", StorageUtil.ServerPort);
+            Console.WriteLine("Log server started up on port {0}", StorageUtil.ServerPort);
 
             // Handle requests
             Task listenTask = HandleIncomingConnections();

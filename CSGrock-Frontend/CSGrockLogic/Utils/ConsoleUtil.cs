@@ -1,4 +1,5 @@
 ﻿using CSGrock_Frontend.CSGrockLogic.Utils.Enums;
+using CSGrock_Frontend.CSGrockLogsServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,41 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($" {url}");
             Console.WriteLine();
+        }
+
+        public static void AddLog(string url, RequestMethode requestMethode)
+        {
+            //add to the beginning
+            StorageUtil.LogsStorage.Insert(0, (url, requestMethode));
+            WriteConsoleInfoMessages();
+        }
+
+        public static void WriteConsoleInfoMessages()
+        {
+            Console.Clear();
+            Console.WriteLine("---------------------------------------------------------------");
+            PrintWithColor($"Logserver started up on port {CSGrockLogsServer.Utils.StorageUtil.ServerPort} successfully!", ConsoleColor.Green);
+            Console.WriteLine($"http://localhost:{CSGrockLogsServer.Utils.StorageUtil.ServerPort}/ to view the logs in your browser");
+            Console.WriteLine("---------------------------------------------------------------");
+            PrintWithColor("You can perform request trough our backend under the following url now", ConsoleColor.Green);
+            Console.WriteLine($"https://{StorageUtil.BackendURL}/send/{StorageUtil.UUID}/");
+            Console.WriteLine($"Example: https://{StorageUtil.BackendURL}/send/{StorageUtil.UUID}/api/v1/getUsers");
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine();
+
+            for (int i = 0; i < 20; i++)
+            {
+                if(StorageUtil.LogsStorage.Count <= i) break;
+
+                SendLogMessage(StorageUtil.LogsStorage[i].Item1, StorageUtil.LogsStorage[i].Item2);
+            }
+        }
+
+        public static void PrintWithColor(string message, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }

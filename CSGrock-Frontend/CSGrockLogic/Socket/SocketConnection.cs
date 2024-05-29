@@ -54,11 +54,10 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             if (messageContent.StartsWith("You are connected with UUID "))
             {
                 string uuid = messageContent.Replace("You are connected with UUID ", "");
-                Console.WriteLine("You can perform request trough our backend under the following url now");
-                Console.WriteLine($"https://{StorageUtil.BackendURL}/send/{uuid}/");
-                Console.WriteLine($"Example: https://{StorageUtil.BackendURL}/send/{uuid}/api/v1/getUsers");
-                Console.WriteLine("---------------------------------------------------------------");
-                Console.WriteLine();
+                StorageUtil.UUID = uuid;
+                Thread.Sleep(600);
+                Console.Title = "CSGrok listening on " + StorageUtil.BackendURL;
+                ConsoleUtil.WriteConsoleInfoMessages();
                 return Task.CompletedTask;
             }
 
@@ -80,7 +79,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                         var errorResultJSON = JSONUtil.ConvertResponseToJSON(errorResult);
                         await SendMessage("Receaving from " + errorResultJSON);
 
-                        ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+                        ConsoleUtil.AddLog(requestURL, requestJSON.requestMethode);
                         CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
                         return Task.CompletedTask;
                     }
@@ -98,13 +97,13 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                             await SendMessage("Receaving parts " + sendingImagePartJSON);
                         }
 
-                        ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+                        ConsoleUtil.AddLog(requestURL, requestJSON.requestMethode);
                         CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
                         return Task.CompletedTask;
                     }
                 }
 
-                ConsoleUtil.SendLogMessage(requestURL, requestJSON.requestMethode);
+                ConsoleUtil.AddLog(requestURL, requestJSON.requestMethode);
                 CSGrockLogsServer.Utils.LogUtil.AppendToJSONLogs(requestJSON.requestMethode, requestJSON.requestURL);
                 //requestJSON.requestURL = requestJSON.requestURL.Substring(5);
 
