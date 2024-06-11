@@ -13,7 +13,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Utils
     {
         public static ClientWebSocket webSocket = null;
 
-        public static string BackendURL = "csgrock.azurewebsites.net";
+        public static string BackendURL = "csgrok.julin.dev";
 
         //public static string BackendURL = "localhost:7006";
 
