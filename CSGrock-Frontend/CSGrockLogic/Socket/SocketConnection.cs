@@ -110,12 +110,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                 IncomingRequestStruct requestStruct = new IncomingRequestStruct(requestJSON.requestBody, requestJSON.requestHeaders, requestJSON.requestMethode, requestURL, requestJSON.requestID);
 
                 var result = RequestHandler.HandleRequestAsync(requestStruct);
-                if (result == null)
-                {
-                    await SendMessage("Invalid request");
-                    return Task.CompletedTask;
-                }
-                else if (result.Result == null)
+                if (result.Result == null || result.Result.resultContent == null)
                 {
                     await SendMessage("Invalid request");
                     return Task.CompletedTask;
