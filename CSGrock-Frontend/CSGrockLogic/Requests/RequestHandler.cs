@@ -70,8 +70,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the get request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -89,8 +89,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the post request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -107,8 +107,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the put request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -124,8 +124,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the delete request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -141,8 +141,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the head request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -158,8 +158,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the options request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -175,8 +175,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the patch request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -228,8 +228,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
             }
             catch (Exception e)
             {
-                Console.WriteLine("error appeared");
-                Console.WriteLine(e.Message);
+                Console.WriteLine("An error occured while performing the file get request.");
+                //Console.WriteLine(e.Message);
                 return null;
             }
         }

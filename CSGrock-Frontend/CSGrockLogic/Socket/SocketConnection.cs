@@ -64,7 +64,7 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
             try
             {
                 var requestJSON = JSONUtil.ConvertJSONToRequest(messageContent);
-                if(requestJSON.requestURL == null) return Task.CompletedTask;
+                if (requestJSON == null || requestJSON.requestURL == null) return Task.CompletedTask;
 
                 string requestURL = "http://localhost:" + StorageUtil.ForwardPort + requestJSON.requestURL.ToString();
 
@@ -112,7 +112,6 @@ namespace CSGrock_Frontend.CSGrockLogic.Socket
                 var result = RequestHandler.HandleRequestAsync(requestStruct);
                 if (result.Result == null || result.Result.resultContent == null)
                 {
-                    await SendMessage("Invalid request");
                     return Task.CompletedTask;
                 }
 
