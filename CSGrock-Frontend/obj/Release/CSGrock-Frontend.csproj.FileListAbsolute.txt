@@ -1,0 +1,10 @@
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\bin\Release\Newtonsoft.Json.dll
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\bin\Release\Newtonsoft.Json.xml
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Release\CSGrock-Frontend.csproj.AssemblyReference.cache
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Release\CSGrock-Frontend.csproj.CoreCompileInputs.cache
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Release\CSGrock-.2476CE92.Up2Date
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\bin\Release\CSGrok.exe.config
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\bin\Release\CSGrok.exe
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\bin\Release\CSGrok.pdb
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Release\CSGrok.exe
+C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Release\CSGrok.pdb
