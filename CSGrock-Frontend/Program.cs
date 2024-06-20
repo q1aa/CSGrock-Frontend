@@ -12,10 +12,21 @@ namespace CSGrock_Frontend
         static void Main(string[] args)
         {
             if(args.Length == 0) _ = StartUpWithoutArgsAsync();
-            
-            foreach(string arg in args)
-            {
-                Console.WriteLine(arg);
+            else {
+                string serverType = args[0].Replace("--", "");
+                string port = args[1].Replace("--", "");
+
+                try
+                {
+                    int.Parse(port);
+                }
+                catch (Exception)
+                {
+                    printUsage();
+                    return;
+                }
+
+                StartConnections(int.Parse(port), serverType);
             }
             Console.ReadLine();
         }
@@ -26,7 +37,7 @@ namespace CSGrock_Frontend
             string[] input = Console.ReadLine().Split(' ');
             if(input.Length != 2)
             {
-                Console.WriteLine("Invalid input. Please try again.");
+                printUsage();
                 await StartUpWithoutArgsAsync();
             }
             else
@@ -34,16 +45,28 @@ namespace CSGrock_Frontend
                 string serverType = input[0];
                 string port = input[1];
 
-                StorageUtil.ForwardPort = int.Parse(port);
-                Console.Clear();
-                new Thread(() =>
-                {
-                    CSGrockLogsServer.LogsServer.StartUp();
-                }).Start();
-                CSGrockLogsServer.Utils.LogUtil.CreateLogJSONFile();
-                await SocketConnection.ConnectToSocket();
+                StartConnections(int.Parse(port), serverType);
                 Console.ReadLine();
             }
+        }
+
+        static async void StartConnections(int port, string serverType = "http")
+        {
+            Console.Clear();
+            Console.WriteLine($"Starting up server for port {port} with server type {serverType}");
+            StorageUtil.ForwardPort = port;
+            new Thread(() =>
+            {
+                CSGrockLogsServer.LogsServer.StartUp();
+            }).Start();
+            CSGrockLogsServer.Utils.LogUtil.CreateLogJSONFile();
+            await SocketConnection.ConnectToSocket();
+        }
+
+        static void printUsage()
+        {
+            Console.WriteLine("Invalid input. Please try again.");
+            Console.WriteLine("example: CSGrok http 8080");
         }
     }
 }
