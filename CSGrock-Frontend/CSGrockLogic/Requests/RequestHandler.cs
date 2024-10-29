@@ -63,6 +63,8 @@ namespace CSGrock_Frontend.CSGrockLogic.Requests
         {
             try
             {
+                client.DefaultRequestHeaders.Remove("Host");
+                client.DefaultRequestHeaders.Add("Host", client.BaseAddress.Host);
                 HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
                 RequestResultStruct result = await ResponseHandler.HandleResponseAsync(response, requestID);
                 client.Dispose();

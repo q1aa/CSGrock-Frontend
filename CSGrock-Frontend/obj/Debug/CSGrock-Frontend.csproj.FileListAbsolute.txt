@@ -28,3 +28,13 @@ C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\
 C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\bin\Debug\CSGrok.pdb
 C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrok.exe
 C:\Users\Nils Langschmidt\Documents\GitHubNew\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrok.pdb
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\bin\Debug\CSGrok.exe.config
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\bin\Debug\CSGrok.exe
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\bin\Debug\CSGrok.pdb
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrock-Frontend.csproj.AssemblyReference.cache
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrock-Frontend.csproj.CoreCompileInputs.cache
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrock-.2476CE92.Up2Date
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrok.exe
+C:\Users\Skidfredmueller\Documents\GitHub\CSGrock-Frontend\CSGrock-Frontend\obj\Debug\CSGrok.pdb
